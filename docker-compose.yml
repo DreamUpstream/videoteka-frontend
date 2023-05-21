@@ -6,8 +6,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: dev
+    image: videoteka_frontend/latest
     ports:
-      - "8032:8032"
+      - "8080:8080"
     volumes:
       - .:/src
     networks:
