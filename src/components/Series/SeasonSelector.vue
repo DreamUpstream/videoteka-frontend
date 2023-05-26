@@ -1,1 +1,0 @@
-<!-- Season selector for Series -->
