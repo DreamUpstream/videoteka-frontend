@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/${to}`" class="watchable-block">
+  <router-link :to="`watchable/${to}`" class="watchable-block">
     <img :src="watchable.image" alt="Watchable Image" />
     <div class="watchable-info">
       <div class="watchable-details">
