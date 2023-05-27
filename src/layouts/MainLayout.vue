@@ -27,6 +27,13 @@
             @click="showSearchDialog = true"
           />
         </div>
+        <template v-if="!isAuthenticated">
+          <LoginButton />
+          <SignupButton />
+        </template>
+        <template v-if="isAuthenticated">
+          <LogoutButton />
+        </template>
       </q-toolbar>
     </q-header>
 
@@ -97,11 +104,22 @@
 <script>
 import { defineComponent, ref } from "vue";
 import SearchOverlayDialog from "components/SearchOverlayDialog.vue";
+import LoginButton from "components/LoginButton.vue"
+import SignupButton from "components/SignupButton.vue";
+import LogoutButton from "components/LogoutButton.vue";
+import { auth0 } from "boot/auth0";
 
 export default defineComponent({
   name: "MainLayout",
   components: {
     SearchOverlayDialog,
+    SignupButton,
+    LoginButton,
+    LogoutButton
+  },
+  // Buttons doesn't update after auth0 actions
+  computed: {
+    isAuthenticated: () => auth0.isAuthenticated 
   },
   data() {
     return {
