@@ -1,6 +1,3 @@
-// used by WatchablesFeedPage to retrieve and store featured watchables
-// use api.get (from boot/axios.js) for api calls to avoid redundant code
-
 import { defineStore } from "pinia";
 import { api } from "boot/axios";
 
@@ -32,8 +29,8 @@ export const feedStore = defineStore("feed", {
       this.error = null;
       try {
         const response = await api.get("movies");
-        if(response.data.success) {
-          this.setMovies(response.data.data);
+        if(response.status == 200) {
+          this.setMovies(response.data.content);
         }
       } catch (error) {
         this.setError(error);

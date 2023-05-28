@@ -147,7 +147,7 @@ export default {
     };
   },
   computed: {
-    watchables: () => store.getAll.watchables,
+    watchables: () => store.getAll.movies,
   },
   async mounted() {
     await store.loadMovies();
