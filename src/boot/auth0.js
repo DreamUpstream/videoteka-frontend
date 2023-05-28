@@ -1,12 +1,12 @@
 import { boot } from 'quasar/wrappers';
 import { createAuth0 } from "@auth0/auth0-vue";
 
-
 const auth0 = createAuth0({
-    domain: process.env.AUTH0_DOMAIN,
-    clientId: process.env.AUTH0_CLIENT_ID,
-    authorizationParams: {
-        redirect_uri: process.env.AUTH0_CALLBACK_URL
+    domain: 'dev-r9sh2y9g.us.auth0.com',
+    clientId: 'JyuPU3Bo489j177lD0IbysztF27KYnuE',
+    authorizationParams: { 
+        audience: 'https://videoteka.komandospavadinimas.lt', 
+        redirect_uri: window.location.origin,
     }
 });
 

@@ -1,7 +1,6 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
-
-import { userStore } from "stores/user-store";
+import { auth0 } from "./auth0";
 import { getCoreSetting } from "src/helpers/config";
 import { ServerValidationError } from "src/errors/ServerValidationError";
 import { Quasar } from "quasar";
@@ -21,13 +20,12 @@ export default boot(({ app, router, store }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   api.interceptors.request.use(
-    (config) => {
-      const session = userStore(store);
-
-      if (session.token) {
-        config.headers["Authorization"] = "Bearer " + session.token;
-      }
-
+    async (config) => {
+      await auth0.getAccessTokenSilently().then(token => {
+        if(token) {
+          config.headers["Authorization"] = "Bearer " + token;
+        }
+      });
       return config;
     },
     (error) => {
@@ -50,20 +48,7 @@ export default boot(({ app, router, store }) => {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
       if (error.response.status === 401) {
-        const session = sessionStore(store);
-
-        try {
-          if (getCoreSetting("APP_MODE") === "dev") {
-            // noinspection JSForgottenDebugStatementInspection
-            console.debug("Automatically logouted");
-          }
-
-          session.logout(true); // trying auto logout
-        } catch (ex) {
-          // ignore logout error
-        }
-
-        router.push(router.getAccessDeniedRoute(router.currentRoute.value));
+        router.push('error');
       } else if (
         error.response.status !== 400 &&
         error.response.status !== 422 &&

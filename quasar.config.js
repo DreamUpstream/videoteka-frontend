@@ -47,10 +47,7 @@ module.exports = configure(function (ctx) {
       vueRouterMode: "history", // available values: 'hash', 'history'
 
       env: {
-        API_URL: "http://localhost:8081/api",
-        AUTH0_DOMAIN: "dev-dptzznxm4vtdht6f.eu.auth0.com",
-        AUTH0_CLIENT_ID: "VDPqqklbVA3KL8AzK7aUk6diEz8FIle1",
-        AUTH0_CALLBACK_URL: "http://localhost:8080"
+        API_URL: "http://localhost:8081/api"
       },
 
       // transpile: false,

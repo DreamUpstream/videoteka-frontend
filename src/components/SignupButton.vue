@@ -6,7 +6,7 @@
 export default {
   methods: {
     handleSignUp() {
-      this.$auth0.loginWithRedirect({
+      this.$auth0.loginWithPopup({
         authorizationParams: {
           screen_hint: "signup",
         },

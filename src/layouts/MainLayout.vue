@@ -117,12 +117,10 @@ export default defineComponent({
     LoginButton,
     LogoutButton
   },
-  // Buttons doesn't update after auth0 actions
-  computed: {
-    isAuthenticated: () => auth0.isAuthenticated 
-  },
   data() {
     return {
+      isAuthenticated: this.$auth0.isAuthenticated,
+      isLoading: this.$auth0.isLoading,
       // TEST DATA. SHOULD BE REPLACED WITH REAL DATA FROM BACKEND
       watchables: [
         {

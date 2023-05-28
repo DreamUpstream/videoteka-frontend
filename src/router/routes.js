@@ -1,3 +1,5 @@
+import { authGuard } from "@auth0/auth0-vue";
+
 const routes = [
   {
     path: "/",
@@ -11,25 +13,31 @@ const routes = [
         path: "movies",
         component: () => import("pages/WatchablesFeedPage.vue"),
         props: { title: "Movies", to: "movie" },
+        beforeEnter: authGuard,
       },
       {
         path: "series",
         component: () => import("pages/WatchablesFeedPage.vue"),
         props: { title: "Series", to: "series" },
+        beforeEnter: authGuard,
       },
       {
         path: "watchable/:id",
         component: () => import("pages/SingleWatchablePage.vue"),
+        beforeEnter: authGuard,
       },
       {
         path: "about",
         component: () => import("pages/AboutPage.vue"),
+        beforeEnter: authGuard,
       },
     ],
   },
   {
+    name: 'error',
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
+    beforeEnter: authGuard,
   },
 ];
 
