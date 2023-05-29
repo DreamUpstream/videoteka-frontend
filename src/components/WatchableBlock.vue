@@ -6,10 +6,6 @@
         <span class="watchable-title">{{ watchable.title }}</span>
         <span class="watchable-year">({{ (new Date(watchable.releaseDate)).getFullYear() }})</span>
       </div>
-      <div class="rating">
-        <q-icon name="star" class="star-icon" />
-        {{ watchable.rating }}
-      </div>
     </div>
   </router-link>
 </template>
