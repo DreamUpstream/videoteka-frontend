@@ -72,7 +72,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const searchText = ref("");
-    const year = ref("2019");
+    const year = ref("2023");
     const genre = ref("Comedy");
     const rating = ref("8.7");
 
@@ -81,19 +81,18 @@ export default defineComponent({
     const ratings = ref([]); // Will be replaced with actual data
 
     const filteredWatchables = computed(() => {
-      // IF WE WANT TO FILTER IN FRONTEND
-      //   return props.watchables.filter((watchable) => {
-      //     return (
-      //       (searchText.value === "" ||
-      //         watchable.title
-      //           .toLowerCase()
-      //           .includes(searchText.value.toLowerCase())) &&
-      //       (year.value === "" || watchable.year === year.value) &&
-      //       (genre.value === "" || watchable.genre === genre.value) &&
-      //       (rating.value === "" || watchable.rating === rating.value)
-      //     );
-      //   });
-      return props.watchables;
+        return props.watchables.filter((watchable) => {
+          return (
+            (searchText.value === "" ||
+              watchable.title
+                .toLowerCase()
+                .includes(searchText.value.toLowerCase())) &&
+            (year.value === "" || watchable.releaseYear === year.value) &&
+            (genre.value === "" || watchable.genre === genre.value) /* &&
+            (rating.value === "" || watchable.rating === rating.value) */
+            // Uncomment line above, when (if) backend will store ratings
+          );
+        });
     });
 
     return {

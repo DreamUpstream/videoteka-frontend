@@ -11,13 +11,13 @@ const routes = [
       },
       {
         path: "movies",
-        component: () => import("pages/WatchablesFeedPage.vue"),
+        component: () => import("src/pages/MoviesPage.vue"),
         props: { title: "Movies", to: "movie" },
         beforeEnter: authGuard,
       },
       {
         path: "series",
-        component: () => import("pages/WatchablesFeedPage.vue"),
+        component: () => import("src/pages/SeriesPage.vue"),
         props: { title: "Series", to: "series" },
         beforeEnter: authGuard,
       },

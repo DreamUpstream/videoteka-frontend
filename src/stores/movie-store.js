@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { api } from "boot/axios";
 
-export const feedStore = defineStore("feed", {
+export const movieStore = defineStore("movie", {
   state: () => ({
     movies: [],
     error: null,
@@ -9,8 +9,11 @@ export const feedStore = defineStore("feed", {
   }),
 
   getters: {
-    getAll(state) {
-      return state;
+    allMovies(state) {
+      if(state.movies.length == 0 ) {
+        this.loadMovies()
+      }
+      return state.movies;
     },
     getById(state, id) {
       return state.movies.find(watchable => watchable.id === id);
@@ -25,17 +28,19 @@ export const feedStore = defineStore("feed", {
 
   actions: {
     async loadMovies() {
-      this.loading = true;
-      this.error = null;
-      try {
-        const response = await api.get("movies");
-        if(response.status == 200) {
-          this.setMovies(response.data.content);
+      if(this.$state.movies.length == 0) {
+        this.loading = true;
+        this.error = null;
+        try {
+          const response = await api.get("movies");
+          if(response.status == 200) {
+            this.setMovies(response.data.content);
+          }
+        } catch (error) {
+          this.setError(error);
+        } finally {
+          this.loading = false;
         }
-      } catch (error) {
-        this.setError(error);
-      } finally {
-        this.loading = false;
       }
     },
     setMovies(data) {

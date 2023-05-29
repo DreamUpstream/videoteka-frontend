@@ -150,21 +150,20 @@ export default {
   components: {
     // WatchableBlock,
   },
-  //    UNCOMMENT WHEN REAL DATA WILL BE USED
-  //   props: {
-  //     watchable: {
-  //       type: Object,
-  //       required: true,
-  //     },
-  //     relatedWatchables: {
-  //       type: Array,
-  //       default: () => [],
-  //     },
-  //     isSeries: {
-  //       type: Boolean,
-  //       default: false,
-  //     },
-  //   },
+  props: {
+    watchable: {
+      type: Object,
+      required: true,
+    },
+    relatedWatchables: {
+      type: Array,
+      default: () => [],
+    },
+    isSeries: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
     // DOES NOT WORK
     shiftLeft() {
@@ -187,114 +186,6 @@ export default {
   data() {
     return {
       carouselPosition: 0,
-      // TEST DATA. SHOULD BE REPLACED WITH REAL DATA FROM BACKEND
-      relatedWatchables: [
-        {
-          id: 1,
-          title: "The Witcher",
-          rating: 9,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDEwOWVlY2EtMWI0ZC00OWVmLWJmZGItYTk3YjYzN2Y0YmFkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
-          year: 2019,
-        },
-        {
-          id: 2,
-          title: "Stranger Things",
-          rating: 8.5,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDRjYWI5NTMtZTYzZC00NTg4LWI3NjMtNmI3MTdhMWQ5MGJlXkEyXkFqcGdeQXVyNTg4MDc4Mg@@._V1_FMjpg_UX1000_.jpg",
-          year: 2016,
-        },
-        {
-          id: 3,
-          title: "The Mandalorian",
-          rating: 8.7,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BN2M5YWFjN2YtYzU2YS00NzBlLTgwZWUtYWQzNWFhNDkyYjg3XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-          year: 2019,
-        },
-        {
-          id: 4,
-          title: "The Witcher",
-          rating: 9,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDEwOWVlY2EtMWI0ZC00OWVmLWJmZGItYTk3YjYzN2Y0YmFkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
-          year: 2019,
-        },
-        {
-          id: 5,
-          title: "Stranger Things",
-          rating: 8.5,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDRjYWI5NTMtZTYzZC00NTg4LWI3NjMtNmI3MTdhMWQ5MGJlXkEyXkFqcGdeQXVyNTg4MDc4Mg@@._V1_FMjpg_UX1000_.jpg",
-          year: 2016,
-        },
-        {
-          id: 6,
-          title: "The Mandalorian",
-          rating: 8.7,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BN2M5YWFjN2YtYzU2YS00NzBlLTgwZWUtYWQzNWFhNDkyYjg3XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-          year: 2019,
-        },
-      ],
-
-      isSeries: false,
-
-      watchable: {
-        id: 1,
-        title: "The Witcher",
-        rating: 9,
-        image:
-          "https://m.media-amazon.com/images/M/MV5BMDEwOWVlY2EtMWI0ZC00OWVmLWJmZGItYTk3YjYzN2Y0YmFkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
-        year: 2019,
-        description:
-          "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts. Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts. Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts. Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.",
-        video: [
-          {
-            src: "http://ftp.nluug.nl/pub/graphics/blender/demo/movies/ToS/tears_of_steel_720p.mov",
-            type: "video/mp4",
-          },
-        ],
-        tracks: [
-          {
-            src: "media/TearsOfSteel/TOS-en.vtt",
-            kind: "subtitles",
-            srclang: "en",
-            label: "English",
-          },
-          {
-            src: "media/TearsOfSteel/TOS-de.vtt",
-            kind: "subtitles",
-            srclang: "de",
-            label: "German",
-          },
-          {
-            src: "media/TearsOfSteel/TOS-es.vtt",
-            kind: "subtitles",
-            srclang: "es",
-            label: "Spanish",
-          },
-          {
-            src: "media/TearsOfSteel/TOS-fr-Goofy.vtt",
-            kind: "subtitles",
-            srclang: "fr",
-            label: "French",
-          },
-          {
-            src: "media/TearsOfSteel/TOS-it.vtt",
-            kind: "subtitles",
-            srclang: "it",
-            label: "Italian",
-          },
-          {
-            src: "media/TearsOfSteel/TOS-nl.vtt",
-            kind: "subtitles",
-            srclang: "nl",
-            label: "Dutch",
-          },
-        ],
-      },
     };
   },
 };

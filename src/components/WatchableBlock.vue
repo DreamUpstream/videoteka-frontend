@@ -1,8 +1,6 @@
 <template>
   <router-link :to="`watchable/${to}`" class="watchable-block">
-    <q-img
-      :src="typeof accessToken !== 'string' ? null :
-      `${apiUrl}/files/${watchable.video.thumbnailId}?access_token=${accessToken}`" alt="Watchable Image" />
+    <q-img :src="accessToken ? `${apiUrl}/files/${watchable.video.thumbnailId}?access_token=${accessToken}` : ''" alt="Watchable Image" />
     <div class="watchable-info">
       <div class="watchable-details">
         <span class="watchable-title">{{ watchable.title }}</span>
@@ -77,11 +75,13 @@ export default {
     apiUrl: () => process.env.API_URL,
   },
   data() {
-    accessToken: null;
+    return {
+      accessToken: '',
+    }
   },
   props: ["watchable", "to"],
   async mounted() {
-    await auth0.getAccessTokenSilently().then(token => this.accessToken = token);
+    this.accessToken = await auth0.getAccessTokenSilently();
   }
 };
 </script>
