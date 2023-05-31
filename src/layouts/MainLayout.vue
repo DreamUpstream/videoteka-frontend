@@ -99,9 +99,6 @@
 import { defineComponent } from "vue";
 import SearchOverlayDialog from "components/SearchOverlayDialog.vue";
 import LogoutButton from "components/LogoutButton.vue";
-import { searchOverlayStore } from "src/stores/search-overlay-store"; 
-
-const store = searchOverlayStore();
 
 export default defineComponent({
   name: "MainLayout",
@@ -114,11 +111,5 @@ export default defineComponent({
       showSearchDialog: false,
     };
   },
-  computed: {
-    watchables: () => store.allWatchables,
-  },
-  async mounted() {
-    await store.loadWatchables();
-  }
 });
 </script>

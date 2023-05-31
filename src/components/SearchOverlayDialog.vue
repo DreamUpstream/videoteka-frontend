@@ -2,22 +2,14 @@
   <q-dialog v-bind:value="show" @input="update">
     <q-card class="bg-grey-10 custom-dialog">
       <q-card-section class="bg-grey-4">
-        <div class="row justify-around items-center">
+        <div class="row justify-center items-center">
           <q-input
             outlined
             dense
             v-model="searchText"
             placeholder="Search..."
             rounded
-          />
-          <q-select
-            outlined
-            dense
-            v-model="year"
-            :options="years"
-            rounded
-            placeholder="Year"
-            clearable
+            class="q-mr-sm"
           />
           <q-select
             outlined
@@ -34,12 +26,17 @@
       <q-separator class="bg-black" />
       <q-card-section class="q-gutter-md row wrap justify-start items-start">
         <WatchableBlock
-          v-for="watchable in filteredWatchables"
+          v-for="watchable in watchables"
           :key="watchable.id"
           :watchable="watchable"
-          :to="watchable.id"
           class="col-12 col-sm-6 col-md-2"
         />
+        <div
+          v-if="!watchables || watchables.length == 0"
+          class="text-white justify-center items-center q-pa-lg"
+        >
+          No results found.
+        </div>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -52,50 +49,69 @@
 </style>
 
 <script>
-import { defineComponent, ref, computed } from "vue";
-import WatchableBlock from "./WatchableBlock";
+import WatchableBlock from "components/WatchableBlock.vue";
+import { useSearchOverlayStore } from "src/stores/search-overlay-store";
 
-export default defineComponent({
-  components: { WatchableBlock },
-  props: ["show", "watchables"],
-  emits: ["update:show"],
-  watch: {
-    show(newVal) {
-      this.$emit("update:show", newVal);
+export default {
+  components: {
+    WatchableBlock,
+  },
+  computed: {
+    watchables() {
+      return useSearchOverlayStore().watchables;
+    },
+    genres() {
+      return useSearchOverlayStore().genres;
+    },
+    show: {
+      get() {
+        return useSearchOverlayStore().show;
+      },
+      set(value) {
+        useSearchOverlayStore().show = value;
+      },
+    },
+    searchText: {
+      get() {
+        return useSearchOverlayStore().searchText;
+      },
+      set(value) {
+        useSearchOverlayStore().searchText = value;
+      },
+    },
+    genre: {
+      get() {
+        return useSearchOverlayStore().genre;
+      },
+      set(value) {
+        useSearchOverlayStore().genre = value;
+      },
     },
   },
-  setup(props, { emit }) {
-    const searchText = ref("");
-    const year = ref("");
-    const genre = ref("");
-
-    const years = ref(["2022", "2023", "2021", "2022"]); // Will be replaced with actual data
-    const genres = ref(["Comedy", "Fantasy", "Documentary", "Thriller"]); // Will be replaced with actual data
-
-    const filteredWatchables = computed(() => {
-        return props.watchables.filter((watchable) => {
-          return (
-            (searchText.value === "" || searchText.value == null ||
-              watchable.title
-                .toLowerCase()
-                .includes(searchText.value.toLowerCase())) &&
-            (year.value === "" || year.value == null || (new Date(watchable.releaseDate)).getFullYear() == year.value) &&
-            (genre.value === "" || genre.value == null || watchable.genres.includes(genre.value))
-          );
-        });
-    });
-
-    return {
-      searchText,
-      year,
-      genre,
-      years,
-      genres,
-      filteredWatchables,
-      close: (newVal) => {
-        emit("update:show", newVal);
-      },
-    };
+  methods: {
+    update(value) {
+      this.show = value;
+      if (value) {
+        useSearchOverlayStore().loadGenres();
+      }
+    },
+    search() {
+      useSearchOverlayStore().searchWatchables(this.searchText, this.genre);
+    },
   },
-});
+  watch: {
+    searchText: {
+      immediate: true,
+      handler: "search",
+    },
+    genre: {
+      immediate: true,
+      handler: "search",
+    },
+  },
+  created() {
+    useSearchOverlayStore().loadGenres();
+    this.search();
+  },
+};
 </script>

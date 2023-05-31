@@ -1,10 +1,19 @@
 <template>
-  <router-link :to="`watchable/${to}`" class="watchable-block">
-    <q-img :src="accessToken ? `${apiUrl}/files/${watchable.video.thumbnailId}?access_token=${accessToken}` : ''" alt="Watchable Image" />
+  <router-link :to="watchable.to" class="watchable-block">
+    <q-img
+      :src="
+        accessToken
+          ? `${apiUrl}/files/${watchable.thumbnailId}?access_token=${accessToken}`
+          : ''
+      "
+      alt="Watchable Image"
+    />
     <div class="watchable-info">
       <div class="watchable-details">
         <span class="watchable-title">{{ watchable.title }}</span>
-        <span class="watchable-year">({{ (new Date(watchable.releaseDate)).getFullYear() }})</span>
+        <span class="watchable-year" v-if="watchable.releaseDate"
+          >({{ new Date(watchable.releaseDate).getFullYear() }})</span
+        >
       </div>
     </div>
   </router-link>
@@ -64,7 +73,7 @@
 </style>
 
 <script>
-import { auth0 } from 'src/boot/auth0';
+import { auth0 } from "src/boot/auth0";
 
 export default {
   computed: {
@@ -72,12 +81,12 @@ export default {
   },
   data() {
     return {
-      accessToken: '',
-    }
+      accessToken: "",
+    };
   },
   props: ["watchable", "to"],
   async mounted() {
     this.accessToken = await auth0.getAccessTokenSilently();
-  }
+  },
 };
 </script>

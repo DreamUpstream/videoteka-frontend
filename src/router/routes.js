@@ -11,19 +11,32 @@ const routes = [
       },
       {
         path: "movies",
-        component: () => import("src/pages/MoviesPage.vue"),
-        props: { title: "Movies", to: "movie" },
+        component: () => import("src/pages/FeedPage.vue"),
+        name: "movies",
         beforeEnter: authGuard,
       },
       {
         path: "series",
-        component: () => import("src/pages/SeriesPage.vue"),
-        props: { title: "Series", to: "series" },
+        component: () => import("src/pages/FeedPage.vue"),
+        name: "series",
         beforeEnter: authGuard,
       },
       {
-        path: "watchable/:id",
+        path: "movie/:id",
         component: () => import("pages/SingleWatchablePage.vue"),
+        name: "movie",
+        beforeEnter: authGuard,
+      },
+      {
+        path: "series/:id",
+        component: () => import("pages/SingleSeriesPage.vue"),
+        name: "single-series",
+        beforeEnter: authGuard,
+      },
+      {
+        path: "episode/:id",
+        component: () => import("pages/SingleWatchablePage.vue"),
+        name: "episode",
         beforeEnter: authGuard,
       },
       {
@@ -34,7 +47,7 @@ const routes = [
     ],
   },
   {
-    name: 'error',
+    name: "error",
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
     beforeEnter: authGuard,
