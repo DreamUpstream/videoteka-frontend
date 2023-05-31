@@ -1,14 +1,10 @@
 <template>
   <router-link :to="`watchable/${to}`" class="watchable-block">
-    <img :src="watchable.image" alt="Watchable Image" />
+    <q-img :src="accessToken ? `${apiUrl}/files/${watchable.video.thumbnailId}?access_token=${accessToken}` : ''" alt="Watchable Image" />
     <div class="watchable-info">
       <div class="watchable-details">
         <span class="watchable-title">{{ watchable.title }}</span>
-        <span class="watchable-year">({{ watchable.year }})</span>
-      </div>
-      <div class="rating">
-        <q-icon name="star" class="star-icon" />
-        {{ watchable.rating }}
+        <span class="watchable-year">({{ (new Date(watchable.releaseDate)).getFullYear() }})</span>
       </div>
     </div>
   </router-link>
@@ -68,7 +64,20 @@
 </style>
 
 <script>
+import { auth0 } from 'src/boot/auth0';
+
 export default {
+  computed: {
+    apiUrl: () => process.env.API_URL,
+  },
+  data() {
+    return {
+      accessToken: '',
+    }
+  },
   props: ["watchable", "to"],
+  async mounted() {
+    this.accessToken = await auth0.getAccessTokenSilently();
+  }
 };
 </script>

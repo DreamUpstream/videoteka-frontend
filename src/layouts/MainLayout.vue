@@ -27,6 +27,7 @@
             @click="showSearchDialog = true"
           />
         </div>
+        <LogoutButton />
       </q-toolbar>
     </q-header>
 
@@ -95,77 +96,29 @@
 </style>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import SearchOverlayDialog from "components/SearchOverlayDialog.vue";
+import LogoutButton from "components/LogoutButton.vue";
+import { searchOverlayStore } from "src/stores/search-overlay-store"; 
+
+const store = searchOverlayStore();
 
 export default defineComponent({
   name: "MainLayout",
   components: {
     SearchOverlayDialog,
+    LogoutButton,
   },
   data() {
     return {
-      // TEST DATA. SHOULD BE REPLACED WITH REAL DATA FROM BACKEND
-      watchables: [
-        {
-          id: 1,
-          title: "The Witcher",
-          rating: 9,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDEwOWVlY2EtMWI0ZC00OWVmLWJmZGItYTk3YjYzN2Y0YmFkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
-          year: 2019,
-        },
-        {
-          id: 2,
-          title: "Stranger Things",
-          rating: 8.5,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDRjYWI5NTMtZTYzZC00NTg4LWI3NjMtNmI3MTdhMWQ5MGJlXkEyXkFqcGdeQXVyNTg4MDc4Mg@@._V1_FMjpg_UX1000_.jpg",
-          year: 2016,
-        },
-        {
-          id: 3,
-          title: "The Mandalorian",
-          rating: 8.7,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BN2M5YWFjN2YtYzU2YS00NzBlLTgwZWUtYWQzNWFhNDkyYjg3XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-          year: 2019,
-        },
-        {
-          id: 4,
-          title: "The Witcher",
-          rating: 9,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDEwOWVlY2EtMWI0ZC00OWVmLWJmZGItYTk3YjYzN2Y0YmFkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
-          year: 2019,
-        },
-        {
-          id: 5,
-          title: "Stranger Things",
-          rating: 8.5,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDRjYWI5NTMtZTYzZC00NTg4LWI3NjMtNmI3MTdhMWQ5MGJlXkEyXkFqcGdeQXVyNTg4MDc4Mg@@._V1_FMjpg_UX1000_.jpg",
-          year: 2016,
-        },
-        {
-          id: 6,
-          title: "The Mandalorian",
-          rating: 8.7,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BN2M5YWFjN2YtYzU2YS00NzBlLTgwZWUtYWQzNWFhNDkyYjg3XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-          year: 2019,
-        },
-        {
-          id: 7,
-          title: "The Witcher",
-          rating: 9,
-          image:
-            "https://m.media-amazon.com/images/M/MV5BMDEwOWVlY2EtMWI0ZC00OWVmLWJmZGItYTk3YjYzN2Y0YmFkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg",
-          year: 2019,
-        },
-      ],
       showSearchDialog: false,
     };
   },
+  computed: {
+    watchables: () => store.allWatchables,
+  },
+  async mounted() {
+    await store.loadWatchables();
+  }
 });
 </script>

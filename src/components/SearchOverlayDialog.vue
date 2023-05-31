@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-bind:value="show" @input="close">
+  <q-dialog v-bind:value="show" @input="update">
     <q-card class="bg-grey-10 custom-dialog">
       <q-card-section class="bg-grey-4">
         <div class="row justify-around items-center">
@@ -17,6 +17,7 @@
             :options="years"
             rounded
             placeholder="Year"
+            clearable
           />
           <q-select
             outlined
@@ -26,14 +27,7 @@
             color="white"
             placeholder="Genre"
             rounded
-          />
-          <q-select
-            outlined
-            dense
-            v-model="rating"
-            :options="ratings"
-            placeholder="Rating"
-            rounded
+            clearable
           />
         </div>
       </q-card-section>
@@ -72,38 +66,31 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const searchText = ref("");
-    const year = ref("2019");
-    const genre = ref("Comedy");
-    const rating = ref("8.7");
+    const year = ref("");
+    const genre = ref("");
 
-    const years = ref([]); // Will be replaced with actual data
-    const genres = ref([]); // Will be replaced with actual data
-    const ratings = ref([]); // Will be replaced with actual data
+    const years = ref(["2022", "2023", "2021", "2022"]); // Will be replaced with actual data
+    const genres = ref(["Comedy", "Fantasy", "Documentary", "Thriller"]); // Will be replaced with actual data
 
     const filteredWatchables = computed(() => {
-      // IF WE WANT TO FILTER IN FRONTEND
-      //   return props.watchables.filter((watchable) => {
-      //     return (
-      //       (searchText.value === "" ||
-      //         watchable.title
-      //           .toLowerCase()
-      //           .includes(searchText.value.toLowerCase())) &&
-      //       (year.value === "" || watchable.year === year.value) &&
-      //       (genre.value === "" || watchable.genre === genre.value) &&
-      //       (rating.value === "" || watchable.rating === rating.value)
-      //     );
-      //   });
-      return props.watchables;
+        return props.watchables.filter((watchable) => {
+          return (
+            (searchText.value === "" || searchText.value == null ||
+              watchable.title
+                .toLowerCase()
+                .includes(searchText.value.toLowerCase())) &&
+            (year.value === "" || year.value == null || (new Date(watchable.releaseDate)).getFullYear() == year.value) &&
+            (genre.value === "" || genre.value == null || watchable.genres.includes(genre.value))
+          );
+        });
     });
 
     return {
       searchText,
       year,
       genre,
-      rating,
       years,
       genres,
-      ratings,
       filteredWatchables,
       close: (newVal) => {
         emit("update:show", newVal);
